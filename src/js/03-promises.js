@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const form = document.querySelector('.form');
 
   form.addEventListener('submit', function (e) {
-    e.preventDefault(); // Забороняємо формі відправлятися знову
+    e.preventDefault();
 
     const delayInput = form.querySelector('input[name="delay"]');
     const stepInput = form.querySelector('input[name="step"]');
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
       return;
     }
 
-    // Створюємо і обробляємо проміси
+ 
     for (let i = 0; i < amount; i++) {
       createPromise(i + 1, delay + i * step)
         .then(({ position, delay }) => {

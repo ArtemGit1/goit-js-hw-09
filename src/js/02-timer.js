@@ -43,9 +43,9 @@ function calculateTimeDifference() {
 
 startButton.addEventListener("click", () => {
   calculateTimeDifference();
-  // Додайте наступні дві строки для оновлення таймера кожну секунду після натискання кнопки "Start"
-  startTimer(); // Запускаємо таймер
-  timerInterval = setInterval(calculateTimeDifference, 1000); // Оновлюємо таймер кожну секунду
+
+  startTimer();
+  timerInterval = setInterval(calculateTimeDifference, 1000); 
 });
 
 flatpickr("#datetime-picker", {
