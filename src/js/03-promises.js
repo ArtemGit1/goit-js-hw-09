@@ -12,12 +12,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const step = parseInt(stepInput.value);
     const amount = parseInt(amountInput.value);
 
-    if (isNaN(delay) || isNaN(step) || isNaN(amount)) {
-      alert('Будь ласка, введіть коректні числові значення для всіх полів.');
+    if (isNaN(delay) || isNaN(step) || isNaN(amount) || delay < 0 || step < 0 || amount < 0) {
+      alert('Будь ласка, введіть коректні числові значення для всіх полів і переконайтеся, що вони більше або рівні нулю.');
       return;
     }
 
- 
     for (let i = 0; i < amount; i++) {
       createPromise(i + 1, delay + i * step)
         .then(({ position, delay }) => {

@@ -19,13 +19,26 @@ function updateTimerDisplay({ days, hours, minutes, seconds }) {
   secondsElement.textContent = addLeadingZero(seconds);
 }
 
+let timerInterval;
+let timerStarted = false;
+
 function calculateTimeDifference() {
   const currentDate = new Date();
   const selectedDateValue = dateInput.value;
+
+  if (!selectedDateValue) {
+    return;
+  }
+
   const selectedDate = new Date(selectedDateValue);
 
   if (selectedDate <= currentDate) {
-    alert("Please choose a date in the future");
+    if (timerStarted) {
+      clearInterval(timerInterval);
+      alert("Будь ласка, оберіть дату в майбутньому");
+      startButton.disabled = false;
+      dateInput.disabled = false;
+    }
     return;
   }
 
@@ -34,18 +47,24 @@ function calculateTimeDifference() {
 
   if (timeValues.days === 0 && timeValues.hours === 0 && timeValues.minutes === 0 && timeValues.seconds === 0) {
     clearInterval(timerInterval);
-    alert("Countdown completed!");
+    alert("Відлік завершено!");
     startButton.disabled = false;
+    dateInput.disabled = false;
   } else {
     updateTimerDisplay(timeValues);
   }
 }
 
 startButton.addEventListener("click", () => {
+  if (timerStarted) {
+    return;
+  }
+
   calculateTimeDifference();
 
   startTimer();
-  timerInterval = setInterval(calculateTimeDifference, 1000); 
+  timerStarted = true;
+  dateInput.disabled = true;
 });
 
 flatpickr("#datetime-picker", {
@@ -54,7 +73,7 @@ flatpickr("#datetime-picker", {
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    if (selectedDates.length > 0) {
+    if (selectedDates.length > 0 && !timerStarted) {
       startButton.disabled = false;
     } else {
       startButton.disabled = true;
@@ -76,12 +95,8 @@ function convertMs(ms) {
   return { days, hours, minutes, seconds };
 }
 
-let timerInterval;
-
 function startTimer() {
   timerInterval = setInterval(calculateTimeDifference, 1000);
 }
 
 startButton.disabled = true;
-
-calculateTimeDifference();
